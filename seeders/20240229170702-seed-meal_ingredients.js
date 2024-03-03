@@ -1,0 +1,237 @@
+"use strict";
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.bulkInsert("meals", [
+      //Salmon Snout Smacker
+      {
+        meal_id: 1,
+        ingredient_id: 22,
+        required: true,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 1,
+        ingredient_id: 32,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 1,
+        ingredient_id: 1,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      //Big Beefy Bowl
+      {
+        meal_id: 2,
+        ingredient_id: 25,
+        required: true,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 2,
+        ingredient_id: 34,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 2,
+        ingredient_id: 4,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 2,
+        ingredient_id: 7,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      //Turkey Treat
+      {
+        meal_id: 3,
+        ingredient_id: 29,
+        required: true,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 3,
+        ingredient_id: 20,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 3,
+        ingredient_id: 11,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 3,
+        ingredient_id: 36,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      //Cod Crunch
+      {
+        meal_id: 4,
+        ingredient_id: 22,
+        required: true,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 4,
+        ingredient_id: 13,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 4,
+        ingredient_id: 2,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 4,
+        ingredient_id: 31,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      //Pork Potato Platter
+      {
+        meal_id: 5,
+        ingredient_id: 21,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 5,
+        ingredient_id: 32,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 5,
+        ingredient_id: 43,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      //Chicken Casserole
+      {
+        meal_id: 6,
+        ingredient_id: 24,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 6,
+        ingredient_id: 13,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 6,
+        ingredient_id: 34,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      //Lamb and Lentil Stew
+      {
+        meal_id: 7,
+        ingredient_id: 26,
+        required: true,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 7,
+        ingredient_id: 42,
+        required: true,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 7,
+        ingredient_id: 2,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 7,
+        ingredient_id: 7,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      //Cheesy Chicken Chompers
+      {
+        meal_id: 8,
+        ingredient_id: 24,
+        required: false,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        meal_id: 8,
+        ingredient_id: 37,
+        required: true,
+        added: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
+  },
+
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable("meal_ingredients");
+  },
+};

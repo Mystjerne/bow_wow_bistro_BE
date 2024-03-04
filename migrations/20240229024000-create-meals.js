@@ -15,6 +15,7 @@ module.exports = {
           model: "users",
           key: "id",
         },
+        allowNull: true,
       },
       meal_name: {
         allowNull: false,

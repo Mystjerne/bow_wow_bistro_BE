@@ -12,8 +12,8 @@ module.exports = {
           "Succulent oven-baked Norwegian salmon, served on a bed of crunchy potatoes and crispy broccoli.",
         base_price: 4,
         availability: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         //id 2
@@ -23,8 +23,8 @@ module.exports = {
           "Ground beef, mixed with brown rice and topped with diced bell peppers and fresh spinach.",
         base_price: 4,
         availability: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         //id 3
@@ -34,8 +34,8 @@ module.exports = {
           "A premium option! Roasted turkey tenderloin, alongside a serving of juicy cranberries, sautéed zucchini, and a generous serving of quinoa.",
         base_price: 4.5,
         availability: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         //id 4
@@ -45,8 +45,8 @@ module.exports = {
           "Fried cod fillet, served with a medley of diced apples, carrots, and air-fried sweet potatoes.",
         base_price: 3,
         availability: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         //id 5
@@ -56,8 +56,8 @@ module.exports = {
           "Slow roasted pork, seasoned with rosemary and served alongside a hearty helping of creamy mashed potatoes and a side of steamed green beans.",
         base_price: 4,
         availability: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         //id 6
@@ -67,8 +67,8 @@ module.exports = {
           "Tender chunks of chicken breast mixed with diced apples and cooked brown rice, baked until golden brown.",
         base_price: 3,
         availability: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         //id 7
@@ -78,8 +78,8 @@ module.exports = {
           "Succulent pieces of lamb simmered with lentils, carrots, and spinach in a savory broth.",
         base_price: 4,
         availability: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         //id 8
@@ -89,8 +89,8 @@ module.exports = {
           "Ground chicken mixed with shredded cheese and rolled into bite-sized meatballs, air-fried until golden and crispy.",
         base_price: 2,
         availability: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         //id 9
@@ -100,8 +100,8 @@ module.exports = {
           "Ground chicken mixed with shredded cheese and rolled into bite-sized meatballs, air-fried until golden and crispy.",
         base_price: 2,
         availability: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     ]);
   },

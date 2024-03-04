@@ -15,6 +15,7 @@ module.exports = {
           model: "users",
           key: "id",
         },
+        allowNull: false,
       },
       total_price: {
         allowNull: false,
@@ -22,7 +23,7 @@ module.exports = {
       },
       completed: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.BOOLEAN,
       },
       created_at: {
         allowNull: false,

@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("cart", [
+    await queryInterface.bulkInsert("carts", [
       //Salmon Snout Smacker
       {
         user_id: 2,
@@ -12,8 +12,8 @@ module.exports = {
         //Big Beefy Bowl is 18
         total_price: 32.5,
         completed: false,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         user_id: 2,
@@ -22,8 +22,8 @@ module.exports = {
         //Big Beefy Bowl is 18
         total_price: 9,
         completed: true,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     ]);
   },

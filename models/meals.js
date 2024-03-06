@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       meal_name: DataTypes.STRING,
+      meal_photo: DataTypes.STRING,
       meal_description: DataTypes.STRING,
       base_price: DataTypes.INTEGER,
       availability: DataTypes.BOOLEAN,

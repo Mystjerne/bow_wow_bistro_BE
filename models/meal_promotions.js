@@ -1,29 +1,32 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class meal_ingredients extends Model {
+  class meal_promotions extends Model {
     static associate(models) {
-      // define association here
+      this.belongsTo(models.promotions, {
+        foreignKey: "promo_id",
+      });
+      this.belongsTo(models.meals, {
+        foreignKey: "meal_id",
+      });
     }
   }
-  meal_ingredients.init(
+  meal_promotions.init(
     {
       meal_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      ingredient_id: {
+      promo_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      required: DataTypes.BOOLEAN,
-      added: DataTypes.BOOLEAN,
     },
     {
       sequelize,
-      modelName: "meal_ingredients",
+      modelName: "meal_promotions",
       // underscored: true,
     }
   );
-  return meal_ingredients;
+  return meal_promotions;
 };

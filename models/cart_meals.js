@@ -3,9 +3,15 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class cart_meals extends Model {
     static associate(models) {
-      // Do i even really need to have a cart_meals model? it's not like bigfoot had sightings_category as a model. remove this and see what happens?
+      this.belongsTo(models.cart, {
+        foreignKey: "cart_id",
+      });
+      this.belongsTo(models.meals, {
+        foreignKey: "meal_id",
+      });
     }
   }
+
   cart_meals.init(
     {
       cart_id: {

@@ -21,6 +21,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      meal_photo: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
       meal_description: {
         allowNull: false,
         type: Sequelize.STRING,

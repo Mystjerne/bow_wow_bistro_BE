@@ -26,22 +26,28 @@ const {
 //import controllers
 const MealController = require("./controllers/MealController");
 const PromoController = require("./controllers/PromoController");
+const IngredientController = require("./controllers/IngredientController");
 
 //import routers
 const MealRouter = require("./routers/MealRouter");
 const PromoRouter = require("./routers/PromoRouter");
+const IngredientRouter = require("./routers/IngredientRouter");
 
 //pass in db models to controllers when initalized
 const mealController = new MealController(meals, ingredients, meal_ingredients);
 const promoController = new PromoController(promotions);
+const ingredientController = new IngredientController(ingredients);
 
 //pass in the controllers to the routers, then initalize the routers
-const mealRouter = new MealRouter(mealController).routes;
-const promoRouter = new PromoRouter(promoController).routes;
-
+const mealRouter = new MealRouter(mealController).routes();
+const promoRouter = new PromoRouter(promoController).routes();
+const ingredientRouter = new IngredientRouter(ingredientController).routes();
 //pass in checkJwt as a second argument when implementing auth0.
 
-app.use("/meals", MealRouter);
+app.use(express.json());
+app.use("/ingredients", ingredientRouter);
+app.use("/meals", mealRouter);
+app.use("/promotions", promoRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");

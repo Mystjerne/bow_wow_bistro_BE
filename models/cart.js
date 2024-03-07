@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "cart",
-      // underscored: true,
+      underscored: true,
     }
   );
   return cart;

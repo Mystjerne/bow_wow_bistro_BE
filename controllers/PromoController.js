@@ -1,7 +1,7 @@
 const BaseController = require("./BaseController");
 
 //Add a photo url link?
-class MealController extends BaseController {
+class PromoController extends BaseController {
   constructor(model, mealModel, ingredientModel) {
     super(model);
     this.mealModel = mealModel;
@@ -9,7 +9,7 @@ class MealController extends BaseController {
   }
 
   // Create MEAL
-  async addMeal(req, res) {
+  async addPromo(req, res) {
     const { user_id, meal_name, meal_description, base_price, availability } =
       req.body;
     try {
@@ -29,7 +29,7 @@ class MealController extends BaseController {
   }
 
   // Edit and Update meal
-  async updateMeal(req, res) {
+  async updatePromo(req, res) {
     const { user_id, meal_name, meal_description, base_price, availability } =
       req.body;
     const { mealId } = req.params;
@@ -175,4 +175,4 @@ class MealController extends BaseController {
 // get all user info under base controller
 // delete is not required - user can't delete profile
 
-module.exports = MealController;
+module.exports = PromoController;

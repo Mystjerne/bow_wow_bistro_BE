@@ -11,21 +11,16 @@ class IngredientController extends BaseController {
   async addIngredient(req, res) {
     console.log("i am ingredient req.body", req.body);
     //req.body is console logging as "undefined"
-    const {
-      ingredient_name,
-      category,
-      additional_price,
-      availability,
-      add_on,
-    } = req.body;
+    const { ingredientName, category, additionalPrice, availability, addOn } =
+      req.body;
     try {
       // Create new meal
       const newIngredient = await this.ingredientModel.create({
-        ingredient_name: ingredient_name,
+        ingredientName: ingredientName,
         category: category,
-        additional_price: additional_price,
+        additionalPrice: additionalPrice,
         availability: availability,
-        add_on: add_on,
+        addOn: addOn,
       });
       // Respond with new meal
       return res.json(newIngredient);
@@ -35,13 +30,8 @@ class IngredientController extends BaseController {
   }
 
   async updateIngredient(req, res) {
-    const {
-      ingredient_name,
-      category,
-      additional_price,
-      availability,
-      add_on,
-    } = req.body;
+    const { ingredientName, category, additionalPrice, availability, addOn } =
+      req.body;
     const { ingredientId } = req.params;
     //if mealID /= in the list of meals, should throw error and not be able to update
 
@@ -56,11 +46,11 @@ class IngredientController extends BaseController {
       }
       await this.model.update(
         {
-          ingredient_name: ingredient_name,
+          ingredientName: ingredientName,
           category: category,
-          additional_price: additional_price,
+          additionalPrice: additionalPrice,
           availability: availability,
-          add_on: add_on,
+          addOn: addOn,
         },
         {
           where: {

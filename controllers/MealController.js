@@ -79,7 +79,7 @@ class MealController extends BaseController {
     }
   }
 
-  // Edit and Update meal
+  //update meal (but not meal ingredients!)
   async updateMeal(req, res) {
     const {
       userId,
@@ -119,6 +119,97 @@ class MealController extends BaseController {
       const output = await this.model.findAll();
 
       return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err.message });
+    }
+  }
+
+  async updateMealIngredient(req, res) {
+    //This is called when the someone is subsituting a meal ingredient.
+    //need to also have a method for just adding a meal ingredient?
+    console.log("update mealingredients is being called.");
+    const { old_ingredient, ingredient, category } = req.body;
+    //ingredient is the id of the ingredient that is replacing the old_ingredient.
+    const { mealId } = req.params;
+
+    //check to see if new ingredient even exists in the ingredient database.
+    try {
+      let ingredient_data = await this.ingredientModel.findOne({
+        where: { id: ingredient, category: category },
+      });
+      if (ingredient_data == null) {
+        throw new Error(
+          "Ingredient you are trying to subtitute either does not exist in the database, or is not the same category as the old ingredient and cannot be used as a substitute."
+        );
+      }
+      //update the entry in the meal-ingredient table that has an mealid of the request.body's mealid AND
+      //has an ingredientId that is the same as the one we're trying to replace.
+
+      //update returns the number of rows affected by the update operation, not the actual updated rows.
+      await this.mealIngredientsModel.update(
+        {
+          mealId: mealId,
+          ingredientId: ingredient,
+        },
+        {
+          where: {
+            mealId: mealId,
+            ingredientId: old_ingredient,
+          },
+        }
+      );
+
+      //fetch the updated meal ingredient.
+      const updatedMealIngredient = await this.mealIngredientsModel.findOne({
+        where: {
+          mealId: mealId,
+          ingredientId: ingredient,
+        },
+      });
+      // const output = await this.mealIngredientsModel.findAll();
+
+      return res.json(updatedMealIngredient);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err.message });
+    }
+  }
+
+  async deleteMeal(req, res) {
+    console.log("deleteMeal is being called.");
+    const { mealId } = req.params;
+    console.log("i am mealId in deleteMeal", mealId);
+    try {
+      //delete the meal_ingredients first
+      const meal_ingredients_to_delete =
+        await this.mealIngredientsModel.findAll({
+          where: {
+            mealId: mealId,
+          },
+        });
+
+      console.log("meal_ingredients_to_delete:", meal_ingredients_to_delete);
+
+      for (const mealIngredient of meal_ingredients_to_delete) {
+        await mealIngredient.destroy();
+      }
+
+      const meal_to_delete = await this.model.findOne({
+        where: {
+          id: mealId,
+        },
+      });
+
+      if (!meal_to_delete) {
+        return res.status(404).json({ error: true, msg: "Meal not found" });
+      }
+
+      // Delete the skill set
+      await meal_to_delete.destroy();
+
+      return res.json({
+        success: true,
+        msg: "Meal and it's associated ingredients deleted successfully",
+      });
     } catch (err) {
       return res.status(400).json({ error: true, msg: err.message });
     }

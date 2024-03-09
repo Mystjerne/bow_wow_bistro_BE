@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   promotions.init(
     {
-      promo_name: DataTypes.STRING,
+      promoName: DataTypes.STRING,
       percentage: DataTypes.INTEGER,
       availability: DataTypes.BOOLEAN,
     },

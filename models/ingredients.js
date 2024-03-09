@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   ingredients.init(
     {
-      ingredient_name: DataTypes.STRING,
+      ingredientName: DataTypes.STRING,
       category: DataTypes.STRING,
-      additional_price: DataTypes.INTEGER,
+      additionalPrice: DataTypes.INTEGER,
       availability: DataTypes.BOOLEAN,
-      add_on: DataTypes.BOOLEAN,
+      addOn: DataTypes.BOOLEAN,
     },
     {
       sequelize,

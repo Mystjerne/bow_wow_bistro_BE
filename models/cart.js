@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   cart.init(
     {
-      user_id: {
+      userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      total_price: DataTypes.INTEGER,
+      totalPrice: DataTypes.INTEGER,
       completed: DataTypes.BOOLEAN,
     },
     {

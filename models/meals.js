@@ -10,14 +10,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   meals.init(
     {
-      user_id: {
+      userId: {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      meal_name: DataTypes.STRING,
-      meal_photo: DataTypes.STRING,
-      meal_description: DataTypes.STRING,
-      base_price: DataTypes.INTEGER,
+      mealName: DataTypes.STRING,
+      mealPhoto: DataTypes.STRING,
+      mealDescription: DataTypes.STRING,
+      basePrice: DataTypes.INTEGER,
       availability: DataTypes.BOOLEAN,
     },
     {

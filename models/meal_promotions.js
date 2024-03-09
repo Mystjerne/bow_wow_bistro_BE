@@ -4,20 +4,20 @@ module.exports = (sequelize, DataTypes) => {
   class meal_promotions extends Model {
     static associate(models) {
       this.belongsTo(models.promotions, {
-        foreignKey: "promo_id",
+        foreignKey: "promoId",
       });
       this.belongsTo(models.meals, {
-        foreignKey: "meal_id",
+        foreignKey: "mealId",
       });
     }
   }
   meal_promotions.init(
     {
-      meal_id: {
+      mealId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      promo_id: {
+      promoId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

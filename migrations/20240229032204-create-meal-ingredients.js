@@ -16,6 +16,7 @@ module.exports = {
           model: "meals",
           key: "id",
         },
+        allowNull: false,
       },
 
       ingredient_id: {
@@ -24,6 +25,7 @@ module.exports = {
           model: "ingredients",
           key: "id",
         },
+        allowNull: false,
       },
 
       required: {

@@ -4,21 +4,21 @@ module.exports = (sequelize, DataTypes) => {
   class cart_meals extends Model {
     static associate(models) {
       this.belongsTo(models.cart, {
-        foreignKey: "cart_id",
+        foreignKey: "cartId",
       });
       this.belongsTo(models.meals, {
-        foreignKey: "meal_id",
+        foreignKey: "mealId",
       });
     }
   }
 
   cart_meals.init(
     {
-      cart_id: {
+      cartId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      meal_id: {
+      mealId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

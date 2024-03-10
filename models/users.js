@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class users extends Model {
     static associate(models) {
       //the user can technically exist without the cart.
-      this.hasOne(models.cart, { foreignKey: "cartId" });
+      this.hasOne(models.cart, { foreignKey: "userId" });
     }
   }
   users.init(

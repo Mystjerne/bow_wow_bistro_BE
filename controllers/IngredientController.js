@@ -33,7 +33,6 @@ class IngredientController extends BaseController {
     const { ingredientName, category, additionalPrice, availability, addOn } =
       req.body;
     const { ingredientId } = req.params;
-    //if mealID /= in the list of meals, should throw error and not be able to update
 
     try {
       let ingredient_data = await this.ingredientModel.findOne({

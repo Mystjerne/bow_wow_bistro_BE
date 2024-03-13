@@ -28,31 +28,38 @@ const MealController = require("./controllers/MealController");
 const PromoController = require("./controllers/PromoController");
 const IngredientController = require("./controllers/IngredientController");
 const CartController = require("./controllers/CartController");
+const UserController = require("./controllers/UserController");
 
 //import routers
 const MealRouter = require("./routers/MealRouter");
 const PromoRouter = require("./routers/PromoRouter");
 const IngredientRouter = require("./routers/IngredientRouter");
 const CartRouter = require("./routers/CartRouter");
+const UserRouter = require("./routers/UserRouter");
 
 //pass in db models to controllers when initalized
 const mealController = new MealController(meals, ingredients, meal_ingredients);
 const promoController = new PromoController(promotions);
 const ingredientController = new IngredientController(ingredients);
 const cartController = new CartController(cart, meals, cart_meals);
+const userController = new UserController(users);
 
 //pass in the controllers to the routers, then initalize the routers
 const mealRouter = new MealRouter(mealController).routes();
 const promoRouter = new PromoRouter(promoController).routes();
 const ingredientRouter = new IngredientRouter(ingredientController).routes();
 const cartRouter = new CartRouter(cartController).routes();
+const userRouter = new UserRouter(userController).routes();
 //pass in checkJwt as a second argument when implementing auth0.
 
+//Enable cors access to the server
+app.use(cors());
 app.use(express.json());
 app.use("/ingredients", ingredientRouter);
 app.use("/meals", mealRouter);
 app.use("/promotions", promoRouter);
 app.use("/cart", cartRouter);
+app.use("/users", userRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");

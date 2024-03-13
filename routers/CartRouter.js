@@ -7,6 +7,7 @@ class CartRouter {
   }
 
   routes() {
+    //get all carts (including ones the user is not associated with)
     router.get("/", this.controller.getAll.bind(this.controller));
     //add a new cart after a user completes their order
     router.post("/", this.controller.addCart.bind(this.controller));
@@ -22,17 +23,11 @@ class CartRouter {
       this.controller.getUserCurrentCartMeals.bind(this.controller)
     );
 
+    //post a meal to the user's cart meals.
     router.post(
       "/:userId/current",
       this.controller.addUserCurrentCartMeals.bind(this.controller)
     );
-
-    // router.post("/", this.controller.addIngredient.bind(this.controller));
-
-    // router.put(
-    //   "/:ingredientId",
-    //   this.controller.updateIngredient.bind(this.controller)
-    // );
 
     return router; // Return the router instance
   }

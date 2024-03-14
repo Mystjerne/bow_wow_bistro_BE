@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 class PromoRouter {
-  constructor(promoController) {
+  constructor(promoController, checkJwt) {
     this.controller = promoController;
+    this.checkJwt = checkJwt;
   }
 
   routes() {

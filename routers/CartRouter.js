@@ -2,13 +2,18 @@ const express = require("express");
 const router = express.Router();
 
 class CartRouter {
-  constructor(cartController) {
+  constructor(cartController, checkJwt) {
     this.controller = cartController;
+    this.checkJwt = checkJwt;
   }
 
   routes() {
     //get all carts (including ones the user is not associated with)
-    router.get("/", this.controller.getAll.bind(this.controller));
+    router.get(
+      "/",
+      this.checkJwt,
+      this.controller.getAll.bind(this.controller)
+    );
     //add a new cart after a user completes their order
     router.post("/", this.controller.addCart.bind(this.controller));
     //get all carts associated with the user, whether completed or not. for transaction history

@@ -8,6 +8,17 @@ class MealController extends BaseController {
     this.mealIngredientsModel = mealIngredientsModel;
   }
 
+  async getOneMealData(req, res) {
+    const { mealId } = req.body;
+    try {
+      const OneMealData = await this.model.findByPk(mealId);
+
+      return res.json(OneMealData);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
   // Create MEAL
   async addMeal(req, res) {
     //Adding new basic new meal.

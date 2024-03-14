@@ -45,11 +45,14 @@ const cartController = new CartController(cart, meals, cart_meals);
 const userController = new UserController(users);
 
 //pass in the controllers to the routers, then initalize the routers
-const mealRouter = new MealRouter(mealController).routes();
-const promoRouter = new PromoRouter(promoController).routes();
-const ingredientRouter = new IngredientRouter(ingredientController).routes();
-const cartRouter = new CartRouter(cartController).routes();
-const userRouter = new UserRouter(userController).routes();
+const mealRouter = new MealRouter(mealController, checkJwt).routes();
+const promoRouter = new PromoRouter(promoController, checkJwt).routes();
+const ingredientRouter = new IngredientRouter(
+  ingredientController,
+  checkJwt
+).routes();
+const cartRouter = new CartRouter(cartController, checkJwt).routes();
+const userRouter = new UserRouter(userController, checkJwt).routes();
 //pass in checkJwt as a second argument when implementing auth0.
 
 //Enable cors access to the server
@@ -60,6 +63,13 @@ app.use("/meals", mealRouter);
 app.use("/promotions", promoRouter);
 app.use("/cart", cartRouter);
 app.use("/users", userRouter);
+
+// Authorization middleware. When used, the Access Token must
+// exist and be verified against the Auth0 JSON Web Key Set.
+const checkJwt = auth({
+  audience: "https://project-4/api",
+  issuerBaseURL: `https://dev-pmc8jc5o1b6s0fa8.us.auth0.com/`,
+});
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");

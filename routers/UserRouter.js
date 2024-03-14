@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 class UserRouter {
-  constructor(userController) {
+  constructor(userController, checkJwt) {
     this.controller = userController;
+    this.checkJwt = checkJwt;
   }
 
   routes() {
@@ -11,6 +12,7 @@ class UserRouter {
 
     router.post(
       "/check",
+      this.checkJwt,
       this.controller.checkUserExists.bind(this.controller)
     );
 

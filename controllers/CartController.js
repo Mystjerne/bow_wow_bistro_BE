@@ -118,6 +118,7 @@ class CartController extends BaseController {
 
     const { userId } = req.params;
 
+    //NEXT TIME, DANA, FUCKING USE findOrCreate
     var cart = await this.model.findOne({
       where: { userId: userId, completed: false },
     });

@@ -2,9 +2,12 @@ require("dotenv").config();
 //import express for reading json
 const express = require("express");
 const cors = require("cors");
-
 //auth0 middleware
 const { auth } = require("express-oauth2-jwt-bearer");
+const checkJwt = auth({
+  audience: "https://project-4/api",
+  issuerBaseURL: `https://dev-pmc8jc5o1b6s0fa8.us.auth0.com/`,
+});
 
 const PORT = 3000;
 const app = express();
@@ -66,10 +69,6 @@ app.use("/users", userRouter);
 
 // Authorization middleware. When used, the Access Token must
 // exist and be verified against the Auth0 JSON Web Key Set.
-const checkJwt = auth({
-  audience: "https://project-4/api",
-  issuerBaseURL: `https://dev-pmc8jc5o1b6s0fa8.us.auth0.com/`,
-});
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");

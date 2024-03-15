@@ -8,13 +8,18 @@ class MealController extends BaseController {
     this.mealIngredientsModel = mealIngredientsModel;
   }
 
+  //get the data of one specific meal and it's ingredients.
   async getOneMealData(req, res) {
-    const { mealId } = req.body;
+    const { mealId } = req.params;
     try {
-      const OneMealData = await this.model.findByPk(mealId);
+      const OneMealData = await this.model.findOne({
+        where: { id: mealId },
+        include: this.ingredientModel,
+      });
 
       return res.json(OneMealData);
     } catch (err) {
+      console.log(err);
       return res.status(400).json({ error: true, msg: err });
     }
   }

@@ -102,11 +102,18 @@ class CartController extends BaseController {
 
     const current_cart_id = cart.id;
 
-    console.log("current_cart_id", current_cart_id);
     const current_cart_meals = await this.cartMealModel.findAll({
       where: { cartId: current_cart_id },
     });
 
+    //do i really need this
+    /*
+    const meal = this.model.findAll()
+
+    for (let x = 0; x === meal.length;) {
+
+    }
+    */
     console.log("current_cart_meals", current_cart_meals);
 
     return res.json(cart.meals);

@@ -63,6 +63,48 @@ class IngredientController extends BaseController {
       return res.status(400).json({ error: true, msg: err.message });
     }
   }
+
+  async getAllMeat(req, res) {
+    try {
+      console.log("getall meat is being called.");
+      const output = await this.model.findAll({ where: { category: "meat" } });
+      return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  async getAllVegetable(req, res) {
+    try {
+      console.log("getall Vegetable is being called.");
+      const output = await this.model.findAll({
+        where: { category: "vegetable" },
+      });
+      return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  async getAllFruit(req, res) {
+    try {
+      console.log("getall Fruit is being called.");
+      const output = await this.model.findAll({ where: { category: "fruit" } });
+      return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  async getAllCarbs(req, res) {
+    try {
+      console.log("getall Carbs is being called.");
+      const output = await this.model.findAll({ where: { category: "carbs" } });
+      return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
 }
 
 module.exports = IngredientController;

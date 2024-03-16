@@ -8,7 +8,33 @@ class MealController extends BaseController {
     this.mealIngredientsModel = mealIngredientsModel;
   }
 
-  //get the data of one specific meal and it's ingredients.
+  //get the data of one specific meal and it's ingredients IN PRIMARY KEY FORM
+  async getOneMealIngredsByPk(req, res) {
+    const { mealId } = req.params;
+    try {
+      const OneMealData = await this.model.findOne({
+        where: { id: mealId },
+        include: [
+          {
+            model: this.ingredientModel,
+          },
+        ],
+      });
+
+      const one_meal_ingredients = OneMealData.ingredients;
+      var array_of_meal_ingredients_pk = [];
+      for (let x = 0; x < one_meal_ingredients.length; x++) {
+        array_of_meal_ingredients_pk.push(one_meal_ingredients[x].id);
+      }
+
+      return res.json(array_of_meal_ingredients_pk);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  //get the data of one specific meal and it's ingredients IN OBJECT FORM
   async getOneMealData(req, res) {
     const { mealId } = req.params;
     try {
@@ -144,20 +170,37 @@ class MealController extends BaseController {
     //This is called when the someone is subsituting a meal ingredient.
     //need to also have a method for just adding a meal ingredient?
     console.log("update mealingredients is being called.");
-    const { old_ingredient, ingredient, category } = req.body;
+    const { old_ingredient, ingredient } = req.body;
     //ingredient is the id of the ingredient that is replacing the old_ingredient.
     const { mealId } = req.params;
 
-    //check to see if new ingredient even exists in the ingredient database.
     try {
-      let ingredient_data = await this.ingredientModel.findOne({
-        where: { id: ingredient, category: category },
+      // Find the primary keys (IDs) of the old and new ingredients based on their names
+      const oldIngredientData = await this.ingredientModel.findOne({
+        where: { ingredientName: old_ingredient },
       });
-      if (ingredient_data == null) {
+
+      const newIngredientData = await this.ingredientModel.findOne({
+        where: { ingredientName: ingredient },
+      });
+
+      // Check if both ingredients exist in the database and are of the same category
+      if (!oldIngredientData || !newIngredientData) {
         throw new Error(
-          "Ingredient you are trying to subtitute either does not exist in the database, or is not the same category as the old ingredient and cannot be used as a substitute."
+          "One or both of the ingredients you are trying to substitute do not exist in the database, or they are not the same category as specified."
         );
       }
+
+      //check to see if new ingredient even exists in the ingredient database.
+      // try {
+      //   let ingredient_data = await this.ingredientModel.findOne({
+      //     where: { id: ingredient, category: category },
+      //   });
+      //   if (ingredient_data == null) {
+      //     throw new Error(
+      //       "Ingredient you are trying to subtitute either does not exist in the database, or is not the same category as the old ingredient and cannot be used as a substitute."
+      //     );
+      //   }
       //update the entry in the meal-ingredient table that has an mealid of the request.body's mealid AND
       //has an ingredientId that is the same as the one we're trying to replace.
 
@@ -165,12 +208,12 @@ class MealController extends BaseController {
       await this.mealIngredientsModel.update(
         {
           mealId: mealId,
-          ingredientId: ingredient,
+          ingredientId: newIngredientData.id,
         },
         {
           where: {
             mealId: mealId,
-            ingredientId: old_ingredient,
+            ingredientId: oldIngredientData.id,
           },
         }
       );

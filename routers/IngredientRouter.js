@@ -16,10 +16,19 @@ class IngredientRouter {
     );
     router.put(
       "/:ingredientId",
+      this.checkJwt,
       this.controller.updateIngredient.bind(this.controller)
     );
 
-    return router; // Return the router instance
+    //get all ingredients with the correct category
+    router.get("/meat", this.controller.getAllMeat.bind(this.controller));
+    router.get("/fruit", this.controller.getAllFruit.bind(this.controller));
+    router.get(
+      "/vegetable",
+      this.controller.getAllVegetable.bind(this.controller)
+    );
+    router.get("/carbs", this.controller.getAllCarbs.bind(this.controller));
+    return router;
   }
 }
 

@@ -10,10 +10,16 @@ class MealRouter {
   routes() {
     //get all meals data.
     router.get("/", this.controller.getAll.bind(this.controller));
-    //get the data of one specific meal (AND its ingredients)
+    //get the data of one specific meal (AND its ingredients in OBJECT form)
     router.get(
       "/:mealId",
       this.controller.getOneMealData.bind(this.controller)
+    );
+
+    //get the data of one specific meal (AND its ingredients in PRIMARY KEY form)
+    router.get(
+      "/:mealId/ingred-pk",
+      this.controller.getOneMealIngredsByPk.bind(this.controller)
     );
     //create a meal, add it to the list of all meals. add the meal_ingredients as well.
     router.post(

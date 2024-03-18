@@ -44,7 +44,7 @@ const UserRouter = require("./routers/UserRouter");
 const mealController = new MealController(meals, ingredients, meal_ingredients);
 const promoController = new PromoController(promotions);
 const ingredientController = new IngredientController(ingredients);
-const cartController = new CartController(cart, meals, cart_meals);
+const cartController = new CartController(cart, meals, cart_meals, ingredients);
 const userController = new UserController(users);
 
 //pass in the controllers to the routers, then initalize the routers

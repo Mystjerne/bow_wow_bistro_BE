@@ -225,6 +225,7 @@ class MealController extends BaseController {
           ingredientId: ingredient,
         },
       });
+
       // const output = await this.mealIngredientsModel.findAll();
 
       return res.json(updatedMealIngredient);

@@ -2,10 +2,11 @@ const BaseController = require("./BaseController");
 
 //Add a photo url link?
 class CartController extends BaseController {
-  constructor(model, mealModel, cartMealModel) {
+  constructor(model, mealModel, cartMealModel, ingredientModel) {
     super(model);
     this.mealModel = mealModel;
     this.cartMealModel = cartMealModel;
+    this.ingredientModel = ingredientModel;
   }
 
   //method to get all carts associated with the user, including completed ones.
@@ -97,25 +98,32 @@ class CartController extends BaseController {
     const cart = await this.model.findOne({
       where: { userId: userId, completed: false },
       //give me the data that's associated with mealModel (fetching the associations?)
-      include: this.mealModel,
+      include: [
+        {
+          model: this.mealModel,
+          include: [
+            {
+              model: this.ingredientModel,
+            },
+          ],
+        },
+      ],
     });
-
-    const current_cart_id = cart.id;
-
-    const current_cart_meals = await this.cartMealModel.findAll({
-      where: { cartId: current_cart_id },
-    });
-
-    //do i really need this
-    /*
-    const meal = this.model.findAll()
-
-    for (let x = 0; x === meal.length;) {
-
+    if (!cart) {
+      return res.status(404).json({
+        error: true,
+        msg: "User is not in database.",
+      });
     }
-    */
-    console.log("current_cart_meals", current_cart_meals);
-
+    for (let x = 0; x < cart.meals.length; x++) {
+      //cart.meals[x].ingredients is an array of ingredients for a specific meal.
+      var single_meal_total = 0;
+      var single_meal_ingredients_array = cart.meals[x].ingredients;
+      for (let y = 0; y < single_meal_ingredients_array.length; y++) {
+        single_meal_total += single_meal_ingredients_array[y].additionalPrice;
+      }
+      cart.meals[x].setDataValue("mealPrice", single_meal_total);
+    }
     return res.json(cart.meals);
   }
 
@@ -125,7 +133,7 @@ class CartController extends BaseController {
 
     const { userId } = req.params;
 
-    //NEXT TIME, DANA, FUCKING USE findOrCreate
+    //NEXT TIME USE findOrCreate
     var cart = await this.model.findOne({
       where: { userId: userId, completed: false },
     });

@@ -17,6 +17,11 @@ class CartController extends BaseController {
 
     const carts = await this.model.findAll({
       where: { userId: userId },
+      // include: [
+      //   {
+      //     model: this.ingredientModel,
+      //   },
+      // ],
     });
 
     return res.json(carts);
@@ -93,6 +98,7 @@ class CartController extends BaseController {
   //tested.
   async getUserCurrentCartMeals(req, res) {
     console.log("getUserCurrentCartMeals is being called.");
+
     const { userId } = req.params;
 
     const cart = await this.model.findOne({
@@ -112,7 +118,7 @@ class CartController extends BaseController {
     if (!cart) {
       return res.status(404).json({
         error: true,
-        msg: "User is not in database.",
+        msg: "Cart is not in the database",
       });
     }
     for (let x = 0; x < cart.meals.length; x++) {

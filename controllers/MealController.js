@@ -8,6 +8,19 @@ class MealController extends BaseController {
     this.mealIngredientsModel = mealIngredientsModel;
   }
 
+  async getAllBasicMeals(req, res) {
+    try {
+      const allBasicMealsData = await this.model.findAll({
+        where: { userId: null },
+      });
+
+      return res.json(allBasicMealsData);
+    } catch (err) {
+      console.log("Error with getting all basic meals.");
+      res.status(400).json({ error: true, msg: err });
+    }
+  }
+
   //get the data of one specific meal and it's ingredients IN PRIMARY KEY FORM
   async getOneMealIngredsByPk(req, res) {
     const { mealId } = req.params;
@@ -191,20 +204,6 @@ class MealController extends BaseController {
         );
       }
 
-      //check to see if new ingredient even exists in the ingredient database.
-      // try {
-      //   let ingredient_data = await this.ingredientModel.findOne({
-      //     where: { id: ingredient, category: category },
-      //   });
-      //   if (ingredient_data == null) {
-      //     throw new Error(
-      //       "Ingredient you are trying to subtitute either does not exist in the database, or is not the same category as the old ingredient and cannot be used as a substitute."
-      //     );
-      //   }
-      //update the entry in the meal-ingredient table that has an mealid of the request.body's mealid AND
-      //has an ingredientId that is the same as the one we're trying to replace.
-
-      //update returns the number of rows affected by the update operation, not the actual updated rows.
       await this.mealIngredientsModel.update(
         {
           mealId: mealId,

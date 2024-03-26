@@ -67,11 +67,43 @@ app.use("/promotions", promoRouter);
 app.use("/cart", cartRouter);
 app.use("/users", userRouter);
 
-// Authorization middleware. When used, the Access Token must
-// exist and be verified against the Auth0 JSON Web Key Set.
+const stripe = require("stripe")(process.env.STRIPE_API_KEY);
+
+var storeItems = new Map([
+  [1, { priceInCents: 1, name: "Item 1 for sale with Stripe" }],
+  [2, { priceInCents: 100, name: "a coke.yes, cocaine" }],
+]);
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");
+});
+
+app.post("/stripe", async (req, res) => {
+  console.log("req.body: ", req.body);
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: req.body.itemsToPurchase[0].items.map((item) => {
+        const storeItem = storeItems.get(item.id);
+        return {
+          price_data: {
+            currency: "sgd",
+            product_data: {
+              name: storeItem.name,
+            },
+            unit_amount: storeItem.priceInCents,
+          },
+          quantity: item.quantity,
+        };
+      }),
+      mode: "payment",
+      success_url: `${process.env.FE_STRIPE_SUCCESS_URL}`,
+      cancel_url: `${process.env.FE_STRIPE_FAILURE_URL}`,
+    });
+    res.json({ url: session.url });
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
 });
 
 app.listen(PORT, () => {

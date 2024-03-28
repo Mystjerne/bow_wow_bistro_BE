@@ -9,7 +9,10 @@ class MealRouter {
 
   routes() {
     //get all basic meals data.
-    router.get("/", this.controller.getAllBasicMeals.bind(this.controller));
+    router.get(
+      "/",
+      this.controller.getAllBasicMealsAndTheirPrices.bind(this.controller)
+    );
     //get the data of one specific meal (AND its ingredients in OBJECT form)
     router.get(
       "/:mealId",

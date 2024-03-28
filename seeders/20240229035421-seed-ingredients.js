@@ -16,7 +16,7 @@ module.exports = {
       {
         ingredient_name: "Carrot",
         category: "vegetable",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -43,7 +43,7 @@ module.exports = {
       {
         ingredient_name: "Celery",
         category: "vegetable",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -52,7 +52,7 @@ module.exports = {
       {
         ingredient_name: "Peas",
         category: "vegetable",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -88,7 +88,7 @@ module.exports = {
       {
         ingredient_name: "Brussel Sprouts",
         category: "vegetable",
-        additional_price: 3.5,
+        additional_price: 4,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -106,7 +106,7 @@ module.exports = {
       {
         ingredient_name: "Cucumber",
         category: "vegetable",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -115,7 +115,7 @@ module.exports = {
       {
         ingredient_name: "Apple",
         category: "fruit",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -196,7 +196,7 @@ module.exports = {
       {
         ingredient_name: "Salmon",
         category: "meat",
-        additional_price: 3.5,
+        additional_price: 4,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -205,7 +205,7 @@ module.exports = {
       {
         ingredient_name: "Cod",
         category: "meat",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -214,7 +214,7 @@ module.exports = {
       {
         ingredient_name: "Chicken",
         category: "meat",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -241,7 +241,7 @@ module.exports = {
       {
         ingredient_name: "Eggs",
         category: "meat",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -277,7 +277,7 @@ module.exports = {
       {
         ingredient_name: "Sweet Potato",
         category: "carbs",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -286,7 +286,7 @@ module.exports = {
       {
         ingredient_name: "Potato",
         category: "carbs",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -295,7 +295,7 @@ module.exports = {
       {
         ingredient_name: "White Rice",
         category: "carbs",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -322,7 +322,7 @@ module.exports = {
       {
         ingredient_name: "Quinoa",
         category: "carbs",
-        additional_price: 3.5,
+        additional_price: 4,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -349,7 +349,7 @@ module.exports = {
       {
         ingredient_name: "Pork Liver",
         category: "addon",
-        additional_price: 3.5,
+        additional_price: 3,
         availability: true,
         add_on: false,
         created_at: new Date(),
@@ -374,27 +374,9 @@ module.exports = {
         updated_at: new Date(),
       },
       {
-        ingredient_name: "Ground Ginger",
-        category: "addon",
-        additional_price: 3.5,
-        availability: true,
-        add_on: false,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
         ingredient_name: "Lentils",
         category: "carbs",
-        additional_price: 3.5,
-        availability: true,
-        add_on: false,
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        ingredient_name: "Ground Ginger",
-        category: "addon",
-        additional_price: 3.5,
+        additional_price: 4,
         availability: true,
         add_on: false,
         created_at: new Date(),

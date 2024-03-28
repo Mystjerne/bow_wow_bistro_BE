@@ -8,13 +8,29 @@ class MealController extends BaseController {
     this.mealIngredientsModel = mealIngredientsModel;
   }
 
-  async getAllBasicMeals(req, res) {
+  async getAllBasicMealsAndTheirPrices(req, res) {
     try {
-      const allBasicMealsData = await this.model.findAll({
+      const BasicMealsWithIngredients = await this.model.findAll({
         where: { userId: null },
+        include: [
+          {
+            model: this.ingredientModel,
+          },
+        ],
       });
 
-      return res.json(allBasicMealsData);
+      console.log(BasicMealsWithIngredients);
+
+      const mealsWithPrices = BasicMealsWithIngredients.map((meal) => {
+        const mealPrice = meal.ingredients.reduce((total, ingredient) => {
+          return total + ingredient.additionalPrice;
+        }, 0);
+
+        // Attach the calculated price as a new property to the meal object
+        return { ...meal.toJSON(), mealPrice };
+      });
+
+      return res.json(mealsWithPrices);
     } catch (err) {
       console.log("Error with getting all basic meals.");
       res.status(400).json({ error: true, msg: err });

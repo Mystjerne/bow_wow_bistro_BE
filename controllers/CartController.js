@@ -121,16 +121,19 @@ class CartController extends BaseController {
         msg: "Cart is not in the database",
       });
     }
-    for (let x = 0; x < cart.meals.length; x++) {
-      //cart.meals[x].ingredients is an array of ingredients for a specific meal.
-      var single_meal_total = 0;
-      var single_meal_ingredients_array = cart.meals[x].ingredients;
-      for (let y = 0; y < single_meal_ingredients_array.length; y++) {
-        single_meal_total += single_meal_ingredients_array[y].additionalPrice;
-      }
-      cart.meals[x].setDataValue("mealPrice", single_meal_total);
-    }
-    return res.json(cart.meals);
+
+    // Calculate the total price for each meal based on its ingredients
+    const mealsWithPrices = cart.meals.map((meal) => {
+      const mealPrice = meal.ingredients.reduce((total, ingredient) => {
+        return total + ingredient.additionalPrice;
+      }, 0);
+
+      // Attach the calculated price as a new property to the meal object
+      return { ...meal.toJSON(), mealPrice };
+    });
+
+    // Return the modified meals array with the calculated prices
+    return res.json(mealsWithPrices);
   }
 
   async addUserCurrentCartMeals(req, res) {

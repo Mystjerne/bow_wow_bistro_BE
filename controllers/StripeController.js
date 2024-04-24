@@ -15,6 +15,55 @@ class StripeController extends BaseController {
       [5, { priceInCents: 1200, name: "Pork Potato Platter" }],
       [6, { priceInCents: 1200, name: "Chicken Casserole" }],
     ]);
+
+    this.storeItems = new Map([]);
+    //map the populated storeitems after every addition of a meal.
+    //make sure the cart includes the ids of the meals (aka the ids of the storeItems)
+    //so that when we make a transaction we can format the Create Checkout Session properly
+  }
+
+  async populateStripeStoreItems(req, res) {
+    //get the id, the priceincents, and the name of all the restaurant items.
+    //get the prices of all the menu items.
+    //get the id of all the menu items.
+    //map them out.
+
+    try {
+      const MealsWithIngredients = await this.mealModel.findAll({
+        include: [
+          {
+            model: this.ingredientModel,
+          },
+        ],
+      });
+
+      console.log("MealsWithIngredients:", MealsWithIngredients);
+
+      const mealsWithPrices = MealsWithIngredients.map(async (meal) => {
+        const mealPrice = meal.ingredients.reduce((total, ingredient) => {
+          return total + ingredient.additionalPrice;
+        }, 0);
+
+        // Attach the calculated price as a new property to the meal object
+        this.storeItems.set(meal.id, {
+          priceInCents: mealPrice * 100,
+          name: meal.mealName,
+        });
+      });
+
+      // Wait for all promises to resolve
+      await Promise.all(mealsWithPrices);
+
+      console.log("storeitems:", this.storeItems);
+
+      // Convert the map to an object before sending the response
+      const storeItemsObject = Object.fromEntries(this.storeItems);
+
+      return res.json(storeItemsObject);
+    } catch (err) {
+      console.log("Error with getting all basic meals.");
+      res.status(400).json({ error: true, msg: err });
+    }
   }
 
   // Create checkout session
@@ -44,43 +93,33 @@ class StripeController extends BaseController {
       return res.status(500).json({ error: error });
     }
   }
-
-  // Edit and Update meal
-  async updatePromo(req, res) {
-    const { user_id, meal_name, meal_description, base_price, availability } =
-      req.body;
-    const { mealId } = req.params;
-    //if mealID /= in the list of meals, should throw error and not be able to update
-
-    try {
-      let meal_data = await this.model.findOne({
-        where: { id: mealId },
-      });
-      if (meal_data == null) {
-        throw new Error(
-          "Meal you are trying to edit does not exist in the database."
-        );
-      }
-      await this.model.update(
-        {
-          user_id: user_id,
-          meal_name: meal_name,
-          meal_description: meal_description,
-          base_price: base_price,
-          availability: availability,
-        },
-        {
-          where: {
-            id: mealId,
-          },
-        }
-      );
-      const output = await this.model.findAll();
-      return res.json(output);
-    } catch (err) {
-      return res.status(400).json({ error: true, msg: err.message });
-    }
-  }
 }
 
 module.exports = StripeController;
+// async getAllBasicMealsAndTheirPrices(req, res) {
+//   try {
+//     const MealsWithIngredients = await this.mealModel.findAll({
+//       include: [
+//         {
+//           model: this.ingredientModel,
+//         },
+//       ],
+//     });
+
+//     console.log(MealsWithIngredients);
+
+//     const mealsWithPrices = MealsWithIngredients.map((meal) => {
+//       const mealPrice = meal.ingredients.reduce((total, ingredient) => {
+//         return total + ingredient.additionalPrice;
+//       }, 0);
+
+//       // Attach the calculated price as a new property to the meal object
+//       return { ...meal.toJSON(), mealPrice };
+//     });
+
+//     return res.json(mealsWithPrices);
+//   } catch (err) {
+//     console.log("Error with getting all basic meals.");
+//     res.status(400).json({ error: true, msg: err });
+//   }
+// }

@@ -104,16 +104,10 @@ class MealController extends BaseController {
       });
 
       //after adding in a new meal, get the new meal id so we can can put it into meal_ingredients.
-
       //add entries to meal_ingredients.
       //ingredients contains an array of ingredientIDs. We don't know the length of it yet.
       try {
         for (let ingredientIndex in ingredients) {
-          console.log(
-            "ingredients[ingredientIndex],: ",
-            ingredients[ingredientIndex]
-          );
-
           var new_ingredient_pk = ingredients[ingredientIndex];
 
           var ingredient = await this.ingredientModel.findByPk(
@@ -127,18 +121,13 @@ class MealController extends BaseController {
               msg: "Cannot add the ingredient for this meal. There is no ingredient with the provided ID.",
             });
           }
-
-          console.log("i am new ingredient id", new_ingredient_pk);
-          console.log("i am newMeal.id: ", newMeal.id);
           const addMealIngredient = await this.mealIngredientsModel.create({
             mealId: newMeal.id,
             ingredientId: new_ingredient_pk,
             required: false,
             added: false,
           });
-          console.log(addMealIngredient.toJSON());
         }
-
         return res.json(newMeal);
       } catch (err) {
         console.log("error with ingredient try block", err);

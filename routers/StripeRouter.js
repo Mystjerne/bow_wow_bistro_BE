@@ -13,6 +13,10 @@ class StripeRouter {
       this.controller.createCheckoutSession.bind(this.controller)
     );
 
+    router.get(
+      "/pop-store-items",
+      this.controller.populateStripeStoreItems.bind(this.controller)
+    );
     return router; // Return the router instance
   }
 }

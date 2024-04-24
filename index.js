@@ -78,15 +78,6 @@ app.use("/stripe", stripeRouter);
 //instead of hard coding these, gotta figure out a way to query the backend for the relevant data and then map it out?
 //yes, i know this is already the backend
 
-var storeItems = new Map([
-  [1, { priceInCents: 1200, name: "Salmon Snout Smacker" }],
-  [2, { priceInCents: 1600, name: "Big Beefy Bowl" }],
-  [3, { priceInCents: 1600, name: "Turkey Treat" }],
-  [4, { priceInCents: 1600, name: "Cod Crunch" }],
-  [5, { priceInCents: 1200, name: "Pork Potato Platter" }],
-  [6, { priceInCents: 1200, name: "Chicken Casserole" }],
-]);
-
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
@@ -94,30 +85,3 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Express app listening on port ${PORT}!`);
 });
-// app.post("/stripe", async (req, res) => {
-//   console.log("req.body: ", req.body);
-//   try {
-//     const session = await stripe.checkout.sessions.create({
-//       payment_method_types: ["card"],
-//       line_items: req.body.itemsToPurchase[0].items.map((item) => {
-//         const storeItem = storeItems.get(item.id);
-//         return {
-//           price_data: {
-//             currency: "sgd",
-//             product_data: {
-//               name: storeItem.name,
-//             },
-//             unit_amount: storeItem.priceInCents,
-//           },
-//           quantity: item.quantity,
-//         };
-//       }),
-//       mode: "payment",
-//       success_url: `${process.env.FE_STRIPE_SUCCESS_URL}`,
-//       cancel_url: `${process.env.FE_STRIPE_FAILURE_URL}`,
-//     });
-//     res.json({ url: session.url });
-//   } catch (error) {
-//     return res.status(500).json({ error: error });
-//   }
-// });

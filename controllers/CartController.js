@@ -170,6 +170,37 @@ class CartController extends BaseController {
 
     return res.json(new_cart_meals_entry);
   }
+
+  async deleteOneUserCurrentCartMeal(req, res) {
+    try {
+      const { mealId } = req.body;
+      const { userId } = req.params;
+
+      //NEXT TIME USE findOrCreate
+
+      //if cart is null, create cart for user and set that as a cart.
+
+      var cart = await this.model.findOne({
+        where: { userId: userId, completed: false },
+      });
+
+      await this.cartMealModel.destroy({
+        where: { cartId: cart.id, mealId: mealId },
+      });
+
+      //I should return the new cart sans the item that was deleted.
+
+      cart = await this.model.findOne({
+        where: { userId: userId, completed: false },
+      });
+
+      return res.json(cart);
+    } catch (error) {
+      console.log(error);
+
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
 }
 
 module.exports = CartController;

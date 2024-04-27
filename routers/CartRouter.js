@@ -34,6 +34,12 @@ class CartRouter {
       this.controller.addUserCurrentCartMeals.bind(this.controller)
     );
 
+    //delete a single meal from a user's current cart meals.
+    router.delete(
+      "/:userId/current",
+      this.controller.deleteOneUserCurrentCartMeal.bind(this.controller)
+    );
+
     return router; // Return the router instance
   }
 }

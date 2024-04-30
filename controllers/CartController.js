@@ -180,8 +180,19 @@ class CartController extends BaseController {
 
       //if cart is null, create cart for user and set that as a cart.
 
-      var cart = await this.model.findOne({
+      const cart = await this.model.findOne({
         where: { userId: userId, completed: false },
+        //give me the data that's associated with mealModel (fetching the associations?)
+        include: [
+          {
+            model: this.mealModel,
+            include: [
+              {
+                model: this.ingredientModel,
+              },
+            ],
+          },
+        ],
       });
 
       await this.cartMealModel.destroy({
@@ -190,11 +201,34 @@ class CartController extends BaseController {
 
       //I should return the new cart sans the item that was deleted.
 
-      cart = await this.model.findOne({
+      const new_cart = await this.model.findOne({
         where: { userId: userId, completed: false },
+        //give me the data that's associated with mealModel (fetching the associations?)
+        include: [
+          {
+            model: this.mealModel,
+            include: [
+              {
+                model: this.ingredientModel,
+              },
+            ],
+          },
+        ],
       });
 
-      return res.json(cart);
+      // Calculate the total price for each meal based on its ingredients
+      const mealsWithPrices = new_cart.meals.map((meal) => {
+        const mealPrice = meal.ingredients.reduce((total, ingredient) => {
+          return total + ingredient.additionalPrice;
+        }, 0);
+
+        // Attach the calculated price as a new property to the meal object
+        return { ...meal.toJSON(), mealPrice };
+      });
+
+      // Return the modified meals array with the calculated prices
+
+      return res.json(mealsWithPrices);
     } catch (error) {
       console.log(error);
 

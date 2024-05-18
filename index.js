@@ -45,7 +45,12 @@ const UserRouter = require("./routers/UserRouter");
 const StripeRouter = require("./routers/StripeRouter");
 
 //pass in db models to controllers when initalized
-const mealController = new MealController(meals, ingredients, meal_ingredients);
+const mealController = new MealController(
+  meals,
+  ingredients,
+  meal_ingredients,
+  stripe
+);
 const promoController = new PromoController(promotions);
 const ingredientController = new IngredientController(ingredients);
 const cartController = new CartController(cart, meals, cart_meals, ingredients);
@@ -74,9 +79,6 @@ app.use("/promotions", promoRouter);
 app.use("/cart", cartRouter);
 app.use("/users", userRouter);
 app.use("/stripe", stripeRouter);
-
-//instead of hard coding these, gotta figure out a way to query the backend for the relevant data and then map it out?
-//yes, i know this is already the backend
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");

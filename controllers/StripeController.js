@@ -7,19 +7,7 @@ class StripeController extends BaseController {
     this.ingredientModel = ingredientModel;
     this.stripe = stripe;
 
-    this.storeItems = new Map([
-      [1, { priceInCents: 1200, name: "Salmon Snout Smacker" }],
-      [2, { priceInCents: 1600, name: "Big Beefy Bowl" }],
-      [3, { priceInCents: 1600, name: "Turkey Treat" }],
-      [4, { priceInCents: 1600, name: "Cod Crunch" }],
-      [5, { priceInCents: 1200, name: "Pork Potato Platter" }],
-      [6, { priceInCents: 1200, name: "Chicken Casserole" }],
-    ]);
-
     this.storeItems = new Map([]);
-    //map the populated storeitems after every addition of a meal.
-    //make sure the cart includes the ids of the meals (aka the ids of the storeItems)
-    //so that when we make a transaction we can format the Create Checkout Session properly
   }
 
   async populateStripeStoreItems(req, res) {
@@ -68,20 +56,61 @@ class StripeController extends BaseController {
 
   // Create checkout session
   async createCheckoutSession(req, res) {
+    console.log("i am req.body", req.body);
+    console.log("i am req.body.items", req.body.items);
+    console.log(
+      "i am req.body.itemsToPurchase[0].items",
+      req.body.itemsToPurchase[0].items
+    );
+
+    //the ids of the items that are being bought have been sent over.
+    //1. i need to calculate the prices of all the items that have been sent over. -> take the id of these meals, findbypk?
+    //2. I need to convert that price into it's price in cents.
+    //3. put it all in a var/array. replace line item's req.body.itemsToPurchase with it.
+    //???
+    //profit
+    //req.body.itemsToPurchase[0].items is an array containing objects with an id and a quantity property.
+    var itemids = req.body.itemsToPurchase[0].items.map((item) => {
+      return item.id;
+    });
+
+    const MealsWithIngredients = await this.model.findAll({
+      where: { id: itemids },
+      include: [
+        {
+          model: this.ingredientModel,
+        },
+      ],
+    });
+
+    console.log("i am itemids", itemids);
+    console.log("i am mealswithingredients", MealsWithIngredients);
+
+    const mealsWithPrices = MealsWithIngredients.map((meal) => {
+      const mealPrice = meal.ingredients.reduce((total, ingredient) => {
+        return total + ingredient.additionalPrice;
+      }, 0);
+
+      // Attach the calculated price as a new property to the meal object
+      return { ...meal.toJSON(), mealPriceInCents: mealPrice * 100 };
+    });
+
+    console.log("i am meals with prices", mealsWithPrices);
+
     try {
       const session = await this.stripe.checkout.sessions.create({
         payment_method_types: ["card"],
-        line_items: req.body.itemsToPurchase[0].items.map((item) => {
-          const storeItem = this.storeItems.get(item.id);
+        line_items: mealsWithPrices.map((mealwithprice) => {
+          // const storeItem = mealsWithPrices.get(mealwithprice.id);
           return {
             price_data: {
               currency: "sgd",
               product_data: {
-                name: storeItem.name,
+                name: mealwithprice.mealName,
               },
-              unit_amount: storeItem.priceInCents,
+              unit_amount: mealwithprice.mealPriceInCents,
             },
-            quantity: item.quantity,
+            quantity: 1,
           };
         }),
         mode: "payment",
@@ -90,36 +119,9 @@ class StripeController extends BaseController {
       });
       res.json({ url: session.url });
     } catch (error) {
+      console.log("error with creating stripe checkout session");
       return res.status(500).json({ error: error });
     }
   }
 }
-
 module.exports = StripeController;
-// async getAllBasicMealsAndTheirPrices(req, res) {
-//   try {
-//     const MealsWithIngredients = await this.mealModel.findAll({
-//       include: [
-//         {
-//           model: this.ingredientModel,
-//         },
-//       ],
-//     });
-
-//     console.log(MealsWithIngredients);
-
-//     const mealsWithPrices = MealsWithIngredients.map((meal) => {
-//       const mealPrice = meal.ingredients.reduce((total, ingredient) => {
-//         return total + ingredient.additionalPrice;
-//       }, 0);
-
-//       // Attach the calculated price as a new property to the meal object
-//       return { ...meal.toJSON(), mealPrice };
-//     });
-
-//     return res.json(mealsWithPrices);
-//   } catch (err) {
-//     console.log("Error with getting all basic meals.");
-//     res.status(400).json({ error: true, msg: err });
-//   }
-// }

@@ -1,4 +1,5 @@
 const BaseController = require("./BaseController");
+const StripeController = require("./StripeController");
 
 //Add a photo url link?
 class MealController extends BaseController {
@@ -267,7 +268,6 @@ class MealController extends BaseController {
         return res.status(404).json({ error: true, msg: "Meal not found" });
       }
 
-      // Delete the skill set
       await meal_to_delete.destroy();
 
       return res.json({

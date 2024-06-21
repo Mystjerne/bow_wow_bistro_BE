@@ -123,5 +123,15 @@ class StripeController extends BaseController {
       return res.status(500).json({ error: error });
     }
   }
+
+  async handleStripeSuccess(req, res) {
+    console.log("stripe success method called??");
+    return res.json("stripe success returned");
+  }
+
+  async handleStripeFailure(req, res) {
+    console.log("stripe failure method called??");
+    return res.json("stripe failure returned");
+  }
 }
 module.exports = StripeController;

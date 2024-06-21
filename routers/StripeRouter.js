@@ -17,6 +17,17 @@ class StripeRouter {
       "/pop-store-items",
       this.controller.populateStripeStoreItems.bind(this.controller)
     );
+
+    router.get(
+      "/success",
+      this.controller.handleStripeSuccess.bind(this.controller)
+    );
+
+    router.get(
+      "/failure",
+      this.controller.handleStripeFailure.bind(this.controller)
+    );
+
     return router; // Return the router instance
   }
 }

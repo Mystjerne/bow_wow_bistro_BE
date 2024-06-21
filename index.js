@@ -9,6 +9,7 @@ const checkJwt = auth({
   issuerBaseURL: `https://dev-pmc8jc5o1b6s0fa8.us.auth0.com/`,
 });
 
+//SERVER PORT
 const PORT = 3000;
 const app = express();
 

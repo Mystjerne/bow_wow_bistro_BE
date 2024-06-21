@@ -56,12 +56,15 @@ class StripeController extends BaseController {
 
   // Create checkout session
   async createCheckoutSession(req, res) {
-    console.log("i am req.body", req.body);
-    console.log("i am req.body.items", req.body.items);
-    console.log(
-      "i am req.body.itemsToPurchase[0].items",
-      req.body.itemsToPurchase[0].items
-    );
+    // console.log("i am req.body", req.body);
+    // console.log("i am req.body.items", req.body.items);
+    // console.log(
+    //   "i am req.body.itemsToPurchase[0].items",
+    //   req.body.itemsToPurchase[0].items
+    // );
+
+    console.log("Environment success URL:", process.env.FE_STRIPE_SUCCESS_URL);
+    console.log("Environment failure URL:", process.env.FE_STRIPE_FAILURE_URL);
 
     //the ids of the items that are being bought have been sent over.
     //1. i need to calculate the prices of all the items that have been sent over. -> take the id of these meals, findbypk?

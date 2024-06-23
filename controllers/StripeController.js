@@ -117,8 +117,13 @@ class StripeController extends BaseController {
           };
         }),
         mode: "payment",
-        success_url: `${process.env.FE_STRIPE_SUCCESS_URL}`,
-        cancel_url: `${process.env.FE_STRIPE_FAILURE_URL}`,
+        // http://yoursite.com/order/success?session_id={CHECKOUT_SESSION_ID}
+        success_url:
+          `${process.env.FE_STRIPE_SUCCESS_URL}` +
+          "?session_id={CHECKOUT_SESSION_ID}}",
+        cancel_url:
+          `${process.env.FE_STRIPE_FAILURE_URL}` +
+          "?session_id={CHECKOUT_SESSION_ID}}",
       });
       res.json({ url: session.url });
     } catch (error) {

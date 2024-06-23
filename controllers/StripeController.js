@@ -131,12 +131,25 @@ class StripeController extends BaseController {
 
   async handleStripeSuccess(req, res) {
     console.log("stripe success method called??");
-    return res.json("stripe success returned");
+    const session = await this.stripe.checkout.sessions.retrieve(
+      req.query.session_id
+    );
+    const customer = await this.stripe.customers.retrieve(session.customer);
+    console.log("i am session.customer:", session.customer);
+    return res.json(session.customer);
   }
 
   async handleStripeFailure(req, res) {
-    console.log("stripe failure method called??");
-    return res.json("stripe failure returned");
+    console.log("stripe FAILURE method called??");
+    const session = await this.stripe.checkout.sessions.retrieve(
+      req.query.session_id
+    );
+    const customer = await this.stripe.customers.retrieve(session.customer);
+    return res.status(500).json({
+      error: "something went wrong!",
+      session: session,
+      customer: customer,
+    });
   }
 }
 module.exports = StripeController;

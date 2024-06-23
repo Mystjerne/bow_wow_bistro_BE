@@ -120,10 +120,10 @@ class StripeController extends BaseController {
         // http://yoursite.com/order/success?session_id={CHECKOUT_SESSION_ID}
         success_url:
           `${process.env.FE_STRIPE_SUCCESS_URL}` +
-          "?session_id={CHECKOUT_SESSION_ID}}",
+          "?session_id={CHECKOUT_SESSION_ID}",
         cancel_url:
           `${process.env.FE_STRIPE_FAILURE_URL}` +
-          "?session_id={CHECKOUT_SESSION_ID}}",
+          "?session_id={CHECKOUT_SESSION_ID}",
       });
       res.json({ url: session.url });
     } catch (error) {

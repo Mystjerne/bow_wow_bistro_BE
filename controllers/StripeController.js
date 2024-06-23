@@ -136,7 +136,9 @@ class StripeController extends BaseController {
     );
     const customer = await this.stripe.customers.retrieve(session.customer);
     console.log("i am session.customer:", session.customer);
-    return res.json(session.customer);
+    return res.send(
+      `<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`
+    );
   }
 
   async handleStripeFailure(req, res) {

@@ -56,6 +56,7 @@ class StripeController extends BaseController {
 
   // Create checkout session
   async createCheckoutSession(req, res) {
+
     //the ids of the items that are being bought have been sent over.
     //1. i need to calculate the prices of all the items that have been sent over. -> take the id of these meals, findbypk?
     //2. I need to convert that price into it's price in cents.

@@ -56,13 +56,6 @@ class StripeController extends BaseController {
 
   // Create checkout session
   async createCheckoutSession(req, res) {
-    console.log("i am req.body", req.body);
-    console.log("i am req.body.items", req.body.items);
-    console.log(
-      "i am req.body.itemsToPurchase[0].items",
-      req.body.itemsToPurchase[0].items
-    );
-
     //the ids of the items that are being bought have been sent over.
     //1. i need to calculate the prices of all the items that have been sent over. -> take the id of these meals, findbypk?
     //2. I need to convert that price into it's price in cents.
@@ -117,12 +110,12 @@ class StripeController extends BaseController {
         // http://yoursite.com/order/success?session_id={CHECKOUT_SESSION_ID}
         success_url:
           `${process.env.FE_STRIPE_SUCCESS_URL}` +
-          "?session_id={CHECKOUT_SESSION_ID}}",
+          "?session_id={CHECKOUT_SESSION_ID}",
         cancel_url:
           `${process.env.FE_STRIPE_FAILURE_URL}` +
-          "?session_id={CHECKOUT_SESSION_ID}}",
+          "?session_id={CHECKOUT_SESSION_ID}",
       });
-      res.json({ url: session.url });
+      return res.json({ url: session.url });
     } catch (error) {
       console.log("error with creating stripe checkout session");
       return res.status(500).json({ error: error });
@@ -130,28 +123,38 @@ class StripeController extends BaseController {
   }
 
   async handleStripeSuccess(req, res) {
-    console.log("stripe success method called??");
-    const session = await this.stripe.checkout.sessions.retrieve(
-      req.query.session_id
-    );
-    const customer = await this.stripe.customers.retrieve(session.customer);
-    console.log("i am session.customer:", session.customer);
-    return res.send(
-      `<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`
-    );
+    try {
+      console.log("Stripe success method called");
+      const session = await this.stripe.checkout.sessions.retrieve(
+        req.query.session_id
+      );
+      const customer = await this.stripe.customers.retrieve(session.customer);
+      console.log("i am session.customer:", session.customer);
+      return res.send(
+        `<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`
+      );
+    } catch (error) {
+      console.error("Error handling Stripe success:", error);
+      res.status(500).json({ error: error.message });
+    }
   }
 
   async handleStripeFailure(req, res) {
-    console.log("stripe FAILURE method called??");
-    const session = await this.stripe.checkout.sessions.retrieve(
-      req.query.session_id
-    );
-    const customer = await this.stripe.customers.retrieve(session.customer);
-    return res.status(500).json({
-      error: "something went wrong!",
-      session: session,
-      customer: customer,
-    });
+    try {
+      console.log("Stripe FAILURE method called");
+      const session = await this.stripe.checkout.sessions.retrieve(
+        req.query.session_id
+      );
+      const customer = await this.stripe.customers.retrieve(session.customer);
+      return res.status(500).json({
+        error: "something went wrong!",
+        session: session,
+        customer: customer,
+      });
+    } catch (error) {
+      console.error("Error handling Stripe failure:", error);
+      res.status(500).json({ error: error.message });
+    }
   }
 }
 module.exports = StripeController;
